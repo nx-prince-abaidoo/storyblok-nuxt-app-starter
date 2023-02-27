@@ -3,7 +3,7 @@
     <SbButton
       :disabled="isNoData"
       class="drawer__button"
-      label="New Translation"
+      label="Click me"
       @click="openDrawer"
     />
     <SbSlideover :prevent-close="true" :is-open="isOpen" orientation="right">
@@ -27,15 +27,12 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useTranslationStore } from '../stores/index'
+import { useStore } from '../stores/index'
 
-const store = useTranslationStore()
+const store = useStore()
 const isOpen = ref(false)
 const isLoading = ref(false)
 
-const isError = computed(() => {
-  return store.isValidStoryForm || store.isValidLanguageForm
-})
 const isNoData = computed(() => {
   return store.stories.length === 0
 })

@@ -4,20 +4,21 @@
       <AppNotification v-bind="notification" />
     </div>
     <div class="container__items">
-      <StartTranslationDrawer />
+      <AppDrawer />
     </div>
   </div>
 </template>
 <script setup>
-import { useTranslationStore } from './stores/index'
+import { useStore } from './stores/index'
 const runtimeConfig = useRuntimeConfig()
 const clientToken = runtimeConfig.public.clientToken
-const store = useTranslationStore()
+const store = useStore()
 
 onMounted(async () => {
   if (window.top === window.self) {
     // Redirect if outside Storyblok
-    window.location.assign('https://app.storyblok.com/oauth/app_redirect')
+    // window.location.assign('https://app.storyblok.com/oauth/app_redirect')
+    await getStories()
   } else {
     // Init the stories
     await getStories()
@@ -29,7 +30,7 @@ const notification = computed(() => {
 
 const getStories = async () => {
   const data = await useFetch(
-    `https://api.storyblok.com/v2/cdn/stories?token=${clientToken}`,
+    `https://api.storyblok.com/v2/cdn/stories?token=${clientToken}` // when you need stories in app
   )
   store.stories = data
 }
